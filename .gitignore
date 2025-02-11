@@ -1,0 +1,30 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Diretório de saída do TypeScript
+dist/
+
+# Arquivos de configuração do editor
+.vscode/
+.idea/
+
+# Arquivos temporários do sistema
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Arquivos de logs
+*.log
+
+# Arquivos de ambientes
+.env
+.env.local
+.env.*.local
+
+# Arquivos de compilação do TypeScript
+*.tsbuildinfo
