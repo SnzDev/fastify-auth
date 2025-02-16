@@ -1,60 +1,56 @@
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 async function main() {
-  // Check if there is already an admin user
   const existingAdmin = await prisma.user.findFirst({
-    where: { role: 'admin' },
-  })
+    where: { role: 'ADMIN' },
+  });
 
   if (!existingAdmin) {
-    // Create an admin user if it doesn't exist
-    const hashedPassword = await bcrypt.hash('adminpassword', 10)
+    const hashedPassword = await bcrypt.hash('adminpassword', 10);
 
     await prisma.user.create({
       data: {
         email: 'admin@example.com',
         passwordHash: hashedPassword,
-        role: 'admin', // Assign the "admin" role
+        role: 'ADMIN',
         name: 'Admin User',
-      }
-    })
+      },
+    });
 
-    console.log('Admin user created.')
+    console.log('Admin user created.');
   } else {
-    console.log('Admin user already exists.')
+    console.log('Admin user already exists.');
   }
 
-  // Check if there is already a regular user
   const existingUser = await prisma.user.findFirst({
-    where: { role: 'user' },
-  })
+    where: { role: 'ADMIN' },
+  });
 
   if (!existingUser) {
-    // Create a regular user if it doesn't exist
-    const hashedPassword = await bcrypt.hash('userpassword', 10)
+    const hashedPassword = await bcrypt.hash('userpassword', 10);
 
     await prisma.user.create({
       data: {
         email: 'user@example.com',
         passwordHash: hashedPassword,
-        role: 'user', // Assign the "user" role
+        role: 'USER',
         name: 'Regular User',
-      }
-    })
+      },
+    });
 
-    console.log('Regular user created.')
+    console.log('Regular user created.');
   } else {
-    console.log('Regular user already exists.')
+    console.log('Regular user already exists.');
   }
 }
 
 main()
-  .catch(e => {
-    console.error(e)
+  .catch((e) => {
+    console.error(e);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });
