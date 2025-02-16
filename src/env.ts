@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import { z } from 'zod';
 
-// Carregar as variáveis de ambiente do arquivo .env
 dotenv.config();
 
 const schema = z.object({
