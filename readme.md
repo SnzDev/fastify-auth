@@ -41,54 +41,19 @@ Crie um arquivo **.env** na raiz do projeto e adicione as variáveis necessária
 DATABASE_URL="postgresql://root:12345@localhost:5432/fastify-auth?schema=public"
 JWT_SECRET="seu-segredo-aqui"
 ```
+O JWT_SECRET pode ser gerado no linux usando o seguinte comando:  
+
+```bash
+openssl rand -base64 32
+```
 
 ---
 
 ## 🐳 Rodando o Banco de Dados com Docker
-Se desejar rodar o banco de dados via **Docker**, crie um arquivo `docker-compose.yml` e adicione o seguinte conteúdo:
+Se desejar rodar o banco de dados via **Docker**, utilize o `docker-compose.yml` com o seguinte comando:
 
-```yaml
-version: '3.8'
-services:
-  postgres:
-    image: postgres:latest
-    container_name: fastify-db
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: fastify-auth
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-volumes:
-  postgres_data:
-```
-
-Agora, inicie o banco de dados:
 ```sh
 docker-compose up -d
-```
-
----
-
-## 📂 Estrutura do Projeto
-```
-📦 projeto-fastify
- ┣ 📂 src
- ┃ ┣ 📂 routes
- ┃ ┃ ┗ 📜 auth.routes.ts
- ┃ ┣ 📂 controllers
- ┃ ┃ ┗ 📜 auth.controller.ts
- ┃ ┣ 📂 utils
- ┃ ┃ ┗ 📜 validate-schema.ts
- ┃ ┣ 📜 server.ts
- ┃ ┣ 📜 env.ts
- ┣ 📜 .env
- ┣ 📜 package.json
- ┣ 📜 tsconfig.json
- ┗ 📜 README.md
 ```
 
 ---
@@ -98,12 +63,12 @@ docker-compose up -d
 ### 1️⃣ Criar as Migrações do Prisma
 Antes de rodar a API, execute:
 ```sh
-pnpm prisma migrate dev
+pnpm db:migrate
 ```
 
 Se estiver usando **npm**:
 ```sh
-npm run prisma migrate dev
+npm run db:migrate
 ```
 
 ### 2️⃣ Iniciar o Servidor
@@ -180,43 +145,6 @@ fastify.get('/protected', {
 
 ---
 
-## 🛠 Alias de Path no TypeScript
-Para configurar **alias paths** no projeto, edite o `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@routes/*": ["src/routes/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@utils/*": ["src/utils/*"]
-    }
-  }
-}
-```
-
-Depois, instale `tsconfig-paths` para resolver os aliases:
-```sh
-pnpm add tsconfig-paths
-```
-
-Atualize o `package.json`:
-```json
-{
-  "scripts": {
-    "dev": "ts-node -r tsconfig-paths/register src/server.ts"
-  }
-}
-```
-
-Agora, importe arquivos usando aliases:
-```ts
-import { validateSchema } from '@utils/validate-schema';
-```
-
----
-
 ## 🚀 Contribuindo
 1. Faça um **fork** do projeto
 2. Crie uma **branch** para sua feature (`git checkout -b minha-feature`)
@@ -226,6 +154,6 @@ import { validateSchema } from '@utils/validate-schema';
 
 ---
 
-## 📜 Licença
-Este projeto está sob a licença **MIT**.
+<!-- ## 📜 Licença
+Este projeto está sob a licença **MIT**. -->
 
