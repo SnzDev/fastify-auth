@@ -1,29 +1,25 @@
 {
-    "compilerOptions": {
-      "target": "ES2020",                    // Define o nível de compatibilidade com o ECMAScript
-      "module": "CommonJS",                   // Módulo usado no Node.js
-      "lib": ["ES2020"],              // Bibliotecas que serão usadas no projeto
-      "esModuleInterop": true,                // Permite importações de módulos CommonJS com sintaxe de importação ES6
-      "skipLibCheck": true,                   // Ignora a verificação de tipos das bibliotecas (melhora o tempo de compilação)
-      "forceConsistentCasingInFileNames": true, // Garante que o nome de arquivos seja consistente (case-sensitive)
-      "strict": true,                         // Ativa todas as verificações estritas de tipo
-      "moduleResolution": "node",             // Estratégia de resolução de módulos usada pelo Node.js
-      "resolveJsonModule": true,              // Permite importar arquivos JSON como módulos
-      "outDir": "./dist",                     // Diretório onde os arquivos compilados serão colocados
-      "rootDir": "./src",                     // Diretório raiz dos arquivos fonte
-      "baseUrl": "./",                        // Caminho base para resolução de módulos
-      "paths": {                              // Mapeamento de caminhos para facilitar importações
-        "@/*": ["src/*"]
-      },
-      "allowJs": true,                        // Permite compilar arquivos JavaScript junto com TypeScript
-      "noEmitOnError": true,                  // Não gera arquivos de saída se houver erro de compilação
-      "sourceMap": true                       // Gera mapas de fontes para depuração
-    },
-    "include": [
-      "src/**/*.ts"                           // Incluir todos os arquivos TypeScript no diretório src
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": [
+      "ES2020"
     ],
-    "exclude": [
-      "node_modules"                          // Excluir a pasta node_modules
-    ]
-  }
-  
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "allowJs": true,
+    "noEmitOnError": true,
+    "sourceMap": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
