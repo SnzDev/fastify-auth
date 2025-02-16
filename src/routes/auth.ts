@@ -142,7 +142,7 @@ export async function authRoutes(app: FastifyTypedInstance) {
     }
   );
 
-  app.get('/verify', function (request, reply) {
+  app.get('/me', function (request, reply) {
     // token avaiable via `request.headers.customauthheader` as defined in fastify.register above
     return request.jwtVerify().then(function (decodedToken) {
       return reply.send(decodedToken);
