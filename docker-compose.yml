@@ -1,24 +1,17 @@
-version: '3.8'
-
 services:
-  db:
-    image: postgres:13
-    container_name: my-postgres
+  postgres:
+    image: postgres:latest
+    container_name: fastify-postgres
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: fastify-auth
     ports:
       - "5432:5432"
-    networks:
-      - mynetwork
-    restart: always
+    volumes:
+      - fastify_pg_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
-
-networks:
-  mynetwork:
-    driver: bridge
+  fastify_pg_data:
+    driver: local
