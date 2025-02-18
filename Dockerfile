@@ -27,4 +27,5 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3333
-CMD ["pnpm", "start"]
+CMD ["node", "dist/index.js"]
+
