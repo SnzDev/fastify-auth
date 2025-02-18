@@ -39,6 +39,7 @@ app.register(routes);
 app.listen(
   {
     port: 3333,
+    host: '0.0.0.0',
   },
   (err, address) => {
     if (err) {
