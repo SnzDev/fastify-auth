@@ -50,8 +50,8 @@ export function refreshToken(app: FastifyTypedInstance) {
         reply
           .setCookie('accessToken', newAccessToken, {
             httpOnly: true, // Protege contra ataques XSS
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            secure: true,
+            sameSite: 'none',
             path: '/',
             expires: new Date(Date.now() + 15 * 60 * 1000), // Set expiration date for 15 min
           })

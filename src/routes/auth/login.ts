@@ -3,6 +3,7 @@ import { FastifyTypedInstance } from '../../@types/fastify-typed-instance';
 import { db } from '../../utils/db';
 import * as bcrypt from 'bcrypt';
 import { Session } from '../../@types/session';
+import { env } from '../../env';
 
 export function login(app: FastifyTypedInstance) {
   app.post(
@@ -57,16 +58,14 @@ export function login(app: FastifyTypedInstance) {
         .clearCookie('refreshToken')
         .setCookie('accessToken', accessToken, {
           httpOnly: true, // Protege contra ataques XSS
-          secure: process.env.NODE_ENV === 'production',
+          secure: true,
           sameSite: 'strict',
-          path: '/',
           expires: new Date(Date.now() + 15 * 60 * 1000), // Set expiration date for 15 min
         })
         .setCookie('refreshToken', refreshToken, {
           httpOnly: true, // Protege contra ataques XSS
-          secure: process.env.NODE_ENV === 'production',
+          secure: true,
           sameSite: 'strict',
-          path: '/',
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Set expiration date for 7 days
         })
         .send({ accessToken, refreshToken });
