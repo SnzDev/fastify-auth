@@ -28,3 +28,5 @@ dist/
 
 # Arquivos de compilação do TypeScript
 *.tsbuildinfo
+coverage/
+__snapshots__/

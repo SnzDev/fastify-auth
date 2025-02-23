@@ -1,3 +1,4 @@
+import fastifyCookie from '@fastify/cookie';
 import { fastifyCors } from '@fastify/cors';
 import FastifyJwt from '@fastify/jwt';
 import { fastifySwagger } from '@fastify/swagger';
@@ -10,7 +11,11 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import { env } from './env';
-import { routes } from './routes';
+import { publicRoutes } from './routes/public.routes';
+import { userRoutes } from './routes/user.routes';
+import { refreshToken } from './routes/auth/refresh-token';
+import { adminRoutes } from './routes/admin.routes';
+import { protectedRoutes } from './routes/protected.routes';
 
 const app = fastify({
   logger: true,
@@ -18,12 +23,41 @@ const app = fastify({
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(fastifyCors, { origin: '*' });
+app.register(require('@fastify/helmet'), {
+  global: true,
+});
+
+app.register(fastifyCors, {
+  origin: 'http://localhost:3000', // Permite todas as origens (modifique conforme necessário)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  strictPreflight: false,
+});
+
+app.register(fastifyCookie, {
+  secret: env.JWT_SECRET, // Para assinar os cookies (opcional)
+  // hook: 'preHandler',
+});
 
 app.register(FastifyJwt, {
   secret: env.JWT_SECRET,
 });
 
+// Middleware para verificar autenticação pelo cookie
+// app.addHook('preHandler', async (req, reply) => {
+//   try {
+//     const token = req.cookies.token;
+
+//     if (!token) {
+//       throw new Error('Token ausente');
+//     }
+
+//     req.user = app.jwt.verify(token);
+//   } catch (err) {
+//     return reply.status(401).send({ error: 'Não autorizado' });
+//   }
+// });
 app.register(fastifySwagger, {
   openapi: {
     info: {
@@ -37,7 +71,10 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUi, {
   routePrefix: 'docs',
 });
-app.register(routes);
+app.register(publicRoutes);
+app.register(protectedRoutes);
+app.register(userRoutes);
+app.register(adminRoutes);
 app.listen(
   {
     port: 3333,
